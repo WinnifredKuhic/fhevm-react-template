@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Credit Trading Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"
+            onload="console.log('Ethers.js loaded successfully')"
+            onerror="loadEthersFallback()"></script>
+    <script>
+        function loadEthersFallback() {
+            console.log('Primary CDN failed, trying fallback...');
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js';
+            script.onload = () => console.log('Ethers.js loaded from fallback CDN');
+            script.onerror = () => {
+                console.error('All CDN sources failed. Please check your internet connection.');
+                alert('Failed to load ethers.js. Please check your internet connection and refresh the page.');
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Carbon Credit Trading Platform</h1>
+            <div class="wallet-section">
+                <button id="connectWallet" class="btn btn-primary">Connect Wallet</button>
+                <div id="walletInfo" class="wallet-info" style="display: none;">
+                    <span id="walletAddress"></span>
+                    <span id="networkInfo"></span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="status-section">
+                <div id="connectionStatus" class="status-card">
+                    <h3>Connection Status</h3>
+                    <p id="statusText">Initializing...</p>
+                </div>
+
+                <div id="setupInstructions" class="status-card" style="margin-top: 20px;">
+                    <h3>Local Network Setup</h3>
+                    <ol style="margin-left: 20px; color: var(--text-secondary);">
+                        <li><strong>Add Hardhat Network to MetaMask:</strong></li>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Network Name: Hardhat Local</li>
+                            <li>RPC URL: http://127.0.0.1:8546</li>
+                            <li>Chain ID: 31337</li>
+                            <li>Currency Symbol: ETH</li>
+                        </ul>
+                        <li style="margin-top: 10px;"><strong>Import Test Account:</strong></li>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80</li>
+                            <li>Address: 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266</li>
+                            <li>Balance: 10,000 ETH</li>
+                        </ul>
+                        <li style="margin-top: 10px;">Connect wallet and start trading!</li>
+                    </ol>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(0, 255, 255, 0.1); border-radius: 8px; border: 1px solid var(--primary-cyan);">
+                        <strong style="color: var(--primary-cyan);">🔗 Contract Address:</strong><br>
+                        <code style="color: var(--text-primary);">0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('register')">Register</button>
+                <button class="tab-button" onclick="showTab('issue')">Issue Credits</button>
+                <button class="tab-button" onclick="showTab('trade')">Trade</button>
+                <button class="tab-button" onclick="showTab('orders')">My Orders</button>
+                <button class="tab-button" onclick="showTab('balances')">Balances</button>
+            </div>
+
+            <!-- Register Tab -->
+            <div id="register" class="tab-content active">
+                <div class="card">
+                    <h2>User Registration</h2>
+                    <p>Register to start trading carbon credits on the platform.</p>
+                    <button id="registerUser" class="btn btn-primary">Register User</button>
+                    <div id="registerStatus" class="status-message"></div>
+                </div>
+            </div>
+
+            <!-- Issue Credits Tab -->
+            <div id="issue" class="tab-content">
+                <div class="card">
+                    <h2>Issue Carbon Credits</h2>
+                    <form id="issueForm">
+                        <div class="form-group">
+                            <label for="creditAmount">Amount:</label>
+                            <input type="number" id="creditAmount" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="creditPrice">Price per Credit:</label>
+                            <input type="number" id="creditPrice" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectType">Project Type:</label>
+                            <select id="projectType" required>
+                                <option value="">Select project type</option>
+                                <option value="renewable_energy">Renewable Energy</option>
+                                <option value="reforestation">Reforestation</option>
+                                <option value="carbon_capture">Carbon Capture</option>
+                                <option value="methane_reduction">Methane Reduction</option>
+                                <option value="energy_efficiency">Energy Efficiency</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="verificationHash">Verification Hash:</label>
+                            <input type="text" id="verificationHash" placeholder="0x..." required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Issue Credits</button>
+                    </form>
+                    <div id="issueStatus" class="status-message"></div>
+                </div>
+            </div>
+
+            <!-- Trade Tab -->
+            <div id="trade" class="tab-content">
+                <div class="card">
+                    <h2>Available Credits</h2>
+                    <div id="creditsList" class="credits-list">
+                        <p>Loading available credits...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Create Buy Order</h2>
+                    <form id="buyOrderForm">
+                        <div class="form-group">
+                            <label for="creditId">Credit ID:</label>
+                            <input type="number" id="creditId" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderAmount">Amount:</label>
+                            <input type="number" id="orderAmount" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="maxPrice">Max Price per Credit:</label>
+                            <input type="number" id="maxPrice" min="1" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Order</button>
+                    </form>
+                    <div id="orderStatus" class="status-message"></div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders" class="tab-content">
+                <div class="card">
+                    <h2>My Orders</h2>
+                    <div id="ordersList" class="orders-list">
+                        <p>Loading your orders...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Pending Orders (Sellers)</h2>
+                    <div id="pendingOrdersList" class="orders-list">
+                        <p>Loading pending orders...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Balances Tab -->
+            <div id="balances" class="tab-content">
+                <div class="card">
+                    <h2>Deposit Tokens</h2>
+                    <form id="depositForm">
+                        <div class="form-group">
+                            <label for="depositAmount">Amount:</label>
+                            <input type="number" id="depositAmount" min="1" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Deposit Tokens</button>
+                    </form>
+                    <div id="depositStatus" class="status-message"></div>
+                </div>
+
+                <div class="card">
+                    <h2>My Balances</h2>
+                    <div id="balanceInfo" class="balance-info">
+                        <p>Connect wallet and register to view balances</p>
+                    </div>
+                    <button id="refreshBalances" class="btn btn-secondary">Refresh Balances</button>
+                </div>
+
+                <div class="card">
+                    <h2>System Statistics</h2>
+                    <div id="systemStats" class="stats-info">
+                        <p>Loading system statistics...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

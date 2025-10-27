@@ -1,64 +1,20 @@
 {
-  "name": "carbon-credit-trading-platform",
+  "name": "carbon-credit-trading-dapp",
   "version": "1.0.0",
-  "description": "Privacy-preserving carbon credit trading platform using FHEVM",
   "type": "module",
   "scripts": {
     "compile": "hardhat compile",
-    "clean": "hardhat clean",
+    "deploy:localhost": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
     "node": "hardhat node",
-    "test": "hardhat test test/CarbonCreditTrading.test.mjs",
-    "test:all": "hardhat test",
-    "test:sepolia": "hardhat test test/CarbonCreditTrading.sepolia.test.mjs --network sepolia",
-    "test:coverage": "hardhat coverage",
-    "test:gas": "REPORT_GAS=true hardhat test",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:sol": "solhint 'contracts/**/*.sol'",
-    "lint:sol:fix": "solhint 'contracts/**/*.sol' --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "security:check": "npm audit --audit-level=moderate",
-    "security:fix": "npm audit fix",
-    "deploy:localhost": "hardhat run scripts/deploy.mjs --network localhost",
-    "deploy:sepolia": "hardhat run scripts/deploy.mjs --network sepolia",
-    "verify:sepolia": "hardhat run scripts/verify.mjs --network sepolia",
-    "interact:localhost": "hardhat run scripts/interact.mjs --network localhost",
-    "interact:sepolia": "hardhat run scripts/interact.mjs --network sepolia",
-    "simulate:localhost": "hardhat run scripts/simulate.mjs --network localhost",
-    "simulate:sepolia": "hardhat run scripts/simulate.mjs --network sepolia",
-    "prepare": "husky install",
-    "ci": "npm run lint:sol && npm run format:check && npm run compile && npm run test",
-    "ci:full": "npm run security:check && npm run ci && npm run test:coverage"
+    "test": "hardhat test"
   },
-  "keywords": [
-    "carbon-credits",
-    "blockchain",
-    "privacy",
-    "fhevm",
-    "ethereum",
-    "smart-contracts",
-    "testing",
-    "hardhat"
-  ],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
-    "chai": "^4.3.0",
-    "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
-    "hardhat": "^3.0.6",
-    "husky": "^9.0.0",
-    "prettier": "^3.2.0",
-    "prettier-plugin-solidity": "^1.3.0",
-    "solhint": "^5.0.0"
+    "hardhat": "^3.0.6"
   },
   "dependencies": {
     "@fhevm/solidity": "^0.8.0",
     "ethers": "^6.15.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }
