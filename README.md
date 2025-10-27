@@ -6,11 +6,9 @@
 [![npm](https://img.shields.io/badge/npm-@fhevm/sdk-blue.svg)](https://www.npmjs.com/package/@fhevm/sdk)
 [![FHEVM](https://img.shields.io/badge/FHEVM-Zama-purple.svg)](https://docs.zama.ai/fhevm)
 
-## 🎯 Zama Bounty Submission
+## 🎯 Project Overview
 
 This repository contains a **universal, framework-agnostic SDK** for building privacy-preserving decentralized applications using Zama's Fully Homomorphic Encryption technology.
-
-**GitHub Repository**: [https://github.com/WinnifredKuhic/fhevm-react-template](https://github.com/WinnifredKuhic/fhevm-react-template)
 
 **Live Demo**: [https://carbon-credit-trading-fhe.vercel.app/](https://carbon-credit-trading-fhe.vercel.app/)
 
@@ -136,8 +134,7 @@ function MyComponent() {
 ### Install from Root
 
 ```bash
-# Clone repository
-git clone https://github.com/WinnifredKuhic/fhevm-react-template.git
+# Navigate to project directory
 cd fhevm-react-template
 
 # Install all packages
@@ -356,21 +353,30 @@ console.log('Balance:', decrypted.value);
 
 ---
 
-## 🎮 Example Application
+## 🎮 Example Applications
 
-### Carbon Credit Trading Platform
+This repository includes two comprehensive examples demonstrating the SDK integration:
 
-A complete privacy-preserving carbon credit marketplace demonstrating SDK usage.
+### 1. Next.js Carbon Trading Platform
+
+A complete privacy-preserving carbon credit marketplace with modern React UI.
 
 **Location**: `examples/nextjs-carbon-trading/`
 
 **Live Demo**: [https://carbon-credit-trading-fhe.vercel.app/](https://carbon-credit-trading-fhe.vercel.app/)
 
 **Features**:
-- ✅ Encrypted credit amounts
-- ✅ Private pricing
-- ✅ Confidential balances
+- ✅ React Hooks Integration (`useFhevm`, `useEncrypt`, `useDecrypt`)
+- ✅ Encrypted credit amounts and private pricing
+- ✅ Confidential balances with EIP-712 decryption
 - ✅ Homomorphic trade execution
+- ✅ Modern UI with Tailwind CSS
+
+**Components**:
+- `BalanceViewer.tsx` - View and decrypt encrypted balances
+- `CreditIssuer.tsx` - Issue carbon credits with encrypted amounts
+- `OrderManager.tsx` - Create privacy-preserving buy orders
+- `TradeExecutor.tsx` - Execute trades on encrypted data
 
 **Run Example**:
 
@@ -384,12 +390,26 @@ npm install
 npm run dev
 ```
 
+### 2. Smart Contract Implementation
+
+Complete Solidity contracts with comprehensive testing and deployment scripts.
+
+**Location**: `examples/carbon-credit-trading/`
+
+**Features**:
+- ✅ Full FHE-enabled smart contracts
+- ✅ Comprehensive test suite with 66+ test scenarios
+- ✅ Deployment scripts for multiple networks
+- ✅ Interactive CLI with 15+ commands
+- ✅ Privacy-preserving carbon credit trading logic
+
 **Key Workflows**:
 1. User registration with encrypted balances
-2. Credit issuance with private amounts
+2. Credit issuance with private amounts and verification
 3. Order creation with encrypted parameters
 4. Trade execution with homomorphic operations
 5. Balance viewing with authorized decryption
+6. Regulatory compliance with privacy preservation
 
 ---
 
@@ -478,28 +498,46 @@ fhevm-react-template/
 │       │   ├── client.ts             # FhevmClient class
 │       │   ├── types.ts              # TypeScript types
 │       │   ├── provider.tsx          # React Provider & Hooks
+│       │   ├── encrypt.ts            # Encryption utilities
+│       │   ├── decrypt.ts            # Decryption utilities
 │       │   └── package.json          # SDK configuration
 │       └── README.md                 # SDK documentation
 │
 ├── examples/
 │   ├── nextjs-carbon-trading/        # Next.js Example
 │   │   ├── src/
-│   │   │   ├── app/                  # Next.js App Router
-│   │   │   └── components/           # React Components
+│   │   │   ├── app/
+│   │   │   │   ├── layout.tsx        # Root layout with providers
+│   │   │   │   ├── page.tsx          # Main page
+│   │   │   │   ├── providers.tsx     # FhevmProvider wrapper
+│   │   │   │   └── globals.css       # Global styles
+│   │   │   ├── components/
+│   │   │   │   ├── BalanceViewer.tsx # View encrypted balances
+│   │   │   │   ├── CreditIssuer.tsx  # Issue carbon credits
+│   │   │   │   ├── OrderManager.tsx  # Create buy orders
+│   │   │   │   └── TradeExecutor.tsx # Execute trades
+│   │   │   └── lib/
+│   │   │       └── fhevm.ts          # SDK utilities
 │   │   ├── package.json
 │   │   ├── next.config.js
+│   │   ├── tailwind.config.ts
 │   │   └── README.md
 │   │
 │   └── carbon-credit-trading/        # Smart Contract Example
-│       ├── contracts/                # Solidity contracts
-│       ├── scripts/                  # Deploy scripts
-│       ├── test/                     # Tests
-│       └── hardhat.config.js
+│       ├── contracts/
+│       │   └── CarbonCreditTradingFHEVM.sol  # Main contract
+│       ├── scripts/
+│       │   ├── deploy.js             # Deployment script
+│       │   └── interact.js           # Interaction CLI
+│       ├── test/
+│       │   └── CarbonCreditTradingFHEVM.test.js
+│       ├── hardhat.config.js
+│       └── README.md
 │
 ├── docs/                             # Documentation
-│   ├── API.md
-│   ├── ARCHITECTURE.md
-│   └── DEPLOYMENT.md
+│   ├── API.md                        # Complete API reference
+│   ├── ARCHITECTURE.md               # System design
+│   └── DEPLOYMENT.md                 # Deployment guide
 │
 ├── package.json                      # Root package.json
 ├── demo.mp4                          # Demo video
@@ -518,50 +556,55 @@ Comprehensive documentation available in `docs/`:
 
 ---
 
-## ✅ Bounty Requirements
+## ✅ Key Features & Deliverables
 
 ### ✓ Universal SDK Package
 
 - **Framework-agnostic core** - Works with Node.js, React, Vue, any framework
 - **Initialization utilities** - Simple `initFhevm()` function
 - **Encryption/decryption** - Complete `userDecrypt` with EIP-712 + `publicDecrypt`
-- **wagmi-like API** - Hooks for React, composables for Vue, functions for vanilla JS
+- **Developer-friendly API** - Intuitive hooks and functions with full TypeScript support
 - **Reusable components** - Modular utilities for different encryption scenarios
 - **Clean & extensible** - Well-structured, documented, easy to extend
 
-### ✓ Next.js Example (Required)
+### ✓ Next.js Integration Example
 
-- **Complete Next.js 14 app** - Full-featured frontend
-- **SDK integration** - Uses all SDK hooks and utilities
-- **4 Components** - BalanceViewer, CreditIssuer, OrderManager, TradeExecutor
-- **Tailwind CSS** - Modern UI design
-- **TypeScript** - Type-safe throughout
+- **Complete Next.js 14 app** - Full-featured frontend with App Router
+- **SDK integration** - Demonstrates all SDK hooks and utilities
+- **4 Core Components**:
+  - `BalanceViewer` - View and decrypt encrypted balances
+  - `CreditIssuer` - Issue carbon credits with encrypted amounts
+  - `OrderManager` - Create privacy-preserving buy orders
+  - `TradeExecutor` - Execute trades on encrypted data
+- **Tailwind CSS** - Modern, responsive UI design
+- **TypeScript** - Type-safe throughout with full IntelliSense
 
-### ✓ Example Application
+### ✓ Smart Contract Example
 
-- **Smart contract** - Carbon Credit Trading with FHE
-- **66 test cases** - 85% code coverage
-- **Deployment scripts** - Automated deployment
-- **Interactive CLI** - 15 commands for interaction
-- **Full simulation** - Complete workflow demo
+- **Smart contract** - Carbon Credit Trading with FHE operations
+- **Comprehensive testing** - 66+ test scenarios with high code coverage
+- **Deployment scripts** - Automated deployment for multiple networks
+- **Interactive CLI** - 15+ commands for contract interaction
+- **Complete workflows** - End-to-end privacy-preserving trading scenarios
 
-### ✓ Developer-Friendly
+### ✓ Developer Experience
 
-- **Less than 10 lines to start** - Minimal setup code required
-- **Clear documentation** - Comprehensive guides and examples
+- **Minimal setup** - Less than 10 lines to start using SDK
+- **Clear documentation** - Comprehensive guides and API reference
 - **Type-safe** - Full TypeScript support with IntelliSense
+- **Working examples** - Both frontend and backend implementations
 
-### ✓ Deliverables
+### ✓ Project Deliverables
 
-- ✅ **GitHub Repository** - Complete with updated SDK
-- ✅ **Example Templates** - Next.js application
-- ✅ **Video Demo** - `demo.mp4` showcasing setup and design
-- ✅ **Deployment Links** - Live demo on Vercel
-- ✅ **README** - Comprehensive documentation
+- ✅ **Complete Repository** - SDK package with examples
+- ✅ **Example Applications** - Next.js frontend + Smart contracts
+- ✅ **Video Demo** - `demo.mp4` showcasing setup and features
+- ✅ **Live Deployment** - Production demo on Vercel
+- ✅ **Documentation** - Comprehensive README and API docs
 
 ---
 
-## 🏆 Why This Submission Stands Out
+## 🏆 What Makes This SDK Special
 
 ### 1. True Framework Agnosticism
 
@@ -573,49 +616,53 @@ Unlike template-specific solutions, this SDK works **anywhere**:
 - ✅ Vanilla JavaScript
 - ✅ TypeScript projects
 
-### 2. Production-Ready
+### 2. Production-Ready Implementation
 
-- **66 unit tests** with 85% coverage
+- **Comprehensive testing** - 66+ unit tests with high coverage
 - **Full TypeScript** support with type inference
-- **Error handling** with custom error types
-- **Gas optimized** contracts (800-run optimizer)
-- **Security hardened** with DoS protection
+- **Error handling** with custom error types and validation
+- **Gas optimized** contracts with security hardening
+- **DoS protection** and access control mechanisms
 
-### 3. Real-World Example
+### 3. Real-World Application
 
 The Carbon Credit Trading Platform demonstrates:
-- Complex homomorphic operations
-- Multi-role access control
-- Encrypted order matching
-- Privacy-preserving settlements
+- Complex homomorphic operations on encrypted data
+- Multi-role access control and permissions
+- Encrypted order matching and execution
+- Privacy-preserving settlements and balance management
+- EIP-712 signature-based decryption
 
-### 4. Complete Developer Experience
+### 4. Outstanding Developer Experience
 
 - **Instant setup** - One command installation
-- **Comprehensive docs** - 2000+ lines of documentation
-- **Clear examples** - Multiple usage patterns
-- **Active development** - Ready for community contributions
+- **Comprehensive documentation** - Complete guides and API reference
+- **Clear examples** - Multiple usage patterns and scenarios
+- **Active development** - Ready for community contributions and extensions
 
 ---
 
 ## 🚀 Getting Started
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/WinnifredKuhic/fhevm-react-template.git
+# 1. Navigate to project directory
 cd fhevm-react-template
 
-# 2. Install everything
+# 2. Install all dependencies
 npm install
 
-# 3. Build SDK
+# 3. Build SDK package
 npm run build:sdk
 
-# 4. Run Next.js example
+# 4. Deploy smart contracts (optional)
+npm run compile
+npm run deploy:sepolia
+
+# 5. Run Next.js example application
 npm run dev:nextjs
 ```
 
-**That's it!** You're ready to build privacy-preserving applications.
+**That's it!** You're ready to build privacy-preserving applications with FHEVM.
 
 ---
 
@@ -627,25 +674,22 @@ MIT License - see [LICENSE](./LICENSE) for details.
 
 ## 🙏 Acknowledgments
 
-**Built for the Zama FHEVM SDK Bounty**
-
 Special thanks to:
-- **Zama Team** - For pioneering FHE technology
-- **FHEVM Community** - For feedback and support
-- **Web3 Developers** - For inspiring this developer-friendly SDK
+- **Zama Team** - For pioneering Fully Homomorphic Encryption technology
+- **FHEVM Community** - For feedback, support, and collaboration
+- **Web3 Developers** - For inspiring this developer-friendly SDK design
 
 ---
 
 ## 📞 Contact & Support
 
-- **Issues**: [GitHub Issues](https://github.com/WinnifredKuhic/fhevm-react-template/issues)
 - **Documentation**: [Full Docs](./docs/)
 - **Live Demo**: [https://carbon-credit-trading-fhe.vercel.app/](https://carbon-credit-trading-fhe.vercel.app/)
+- **API Reference**: [API.md](./docs/API.md)
+- **Architecture Guide**: [ARCHITECTURE.md](./docs/ARCHITECTURE.md)
 
 ---
 
-**Submission Status**: ✅ Complete & Production Ready
-
-**GitHub**: [https://github.com/WinnifredKuhic/fhevm-react-template](https://github.com/WinnifredKuhic/fhevm-react-template)
+**Project Status**: ✅ Complete & Production Ready
 
 **Powered by Zama FHEVM** 🔐
