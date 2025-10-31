@@ -147,6 +147,16 @@ npm run build:sdk
 npm run dev:nextjs
 ```
 
+### Use Starter Templates
+
+```bash
+# Copy Next.js template to start a new project
+cp -r templates/nextjs my-new-project
+cd my-new-project
+npm install
+npm run dev
+```
+
 ### Deploy Contracts
 
 ```bash
@@ -359,24 +369,32 @@ This repository includes two comprehensive examples demonstrating the SDK integr
 
 ### 1. Next.js Carbon Trading Platform
 
-A complete privacy-preserving carbon credit marketplace with modern React UI.
+A complete privacy-preserving carbon credit marketplace with modern React UI and full FHEVM integration.
 
 **Location**: `examples/nextjs-carbon-trading/`
 
 **Live Demo**: [https://carbon-credit-trading-fhe.vercel.app/](https://carbon-credit-trading-fhe.vercel.app/)
 
 **Features**:
+- ✅ Complete Next.js 14 App Router implementation
 - ✅ React Hooks Integration (`useFhevm`, `useEncrypt`, `useDecrypt`)
 - ✅ Encrypted credit amounts and private pricing
 - ✅ Confidential balances with EIP-712 decryption
 - ✅ Homomorphic trade execution
 - ✅ Modern UI with Tailwind CSS
+- ✅ API routes for server-side FHE operations
+- ✅ Complete component library with FHE, UI, and example components
 
 **Components**:
 - `BalanceViewer.tsx` - View and decrypt encrypted balances
 - `CreditIssuer.tsx` - Issue carbon credits with encrypted amounts
 - `OrderManager.tsx` - Create privacy-preserving buy orders
 - `TradeExecutor.tsx` - Execute trades on encrypted data
+- `FHEProvider.tsx` - FHE context and client management
+- `EncryptionDemo.tsx` - Interactive encryption demonstrations
+- `ComputationDemo.tsx` - Homomorphic computation examples
+- `BankingExample.tsx` - Private banking use case
+- `MedicalExample.tsx` - Private medical records use case
 
 **Run Example**:
 
@@ -390,25 +408,61 @@ npm install
 npm run dev
 ```
 
-### 2. Smart Contract Implementation
+### 2. React Carbon Trading Application
 
-Complete Solidity contracts with comprehensive testing and deployment scripts.
+Modern React application with Vite, TypeScript, and complete FHEVM SDK integration.
 
 **Location**: `examples/carbon-credit-trading/`
 
 **Features**:
-- ✅ Full FHE-enabled smart contracts
+- ✅ React 18 with TypeScript
+- ✅ Vite for fast development and optimized builds
+- ✅ Full FHEVM SDK integration with custom hooks
+- ✅ Smart contracts with FHE operations
 - ✅ Comprehensive test suite with 66+ test scenarios
 - ✅ Deployment scripts for multiple networks
 - ✅ Interactive CLI with 15+ commands
 - ✅ Privacy-preserving carbon credit trading logic
+- ✅ Component-based architecture with separation of concerns
+- ✅ Cyberpunk-themed UI with responsive design
+
+**Key Components**:
+- `UserRegistration` - User account registration
+- `CreditManagement` - Issue credits with encrypted amounts
+- `OrderManagement` - Create buy orders with encrypted values
+- `TradeExecution` - Execute trades on encrypted data
+- `BalanceDisplay` - View and decrypt token balances
+
+**Custom Hooks**:
+- `useFHE` - FHE client initialization and encryption/decryption operations
+- `useWallet` - Wallet connection and account management
+- `useContract` - Type-safe contract interactions with FHE integration
+
+**Run Example**:
+
+```bash
+# From root directory
+cd examples/carbon-credit-trading
+
+# Install dependencies
+npm install
+
+# Start local Hardhat node (in separate terminal)
+npm run node
+
+# Deploy contracts (in separate terminal)
+npm run deploy:localhost
+
+# Start React application
+npm run dev
+```
 
 **Key Workflows**:
 1. User registration with encrypted balances
-2. Credit issuance with private amounts and verification
-3. Order creation with encrypted parameters
+2. Credit issuance with private amounts and verification (auto-encrypted)
+3. Order creation with encrypted parameters (auto-encrypted)
 4. Trade execution with homomorphic operations
-5. Balance viewing with authorized decryption
+5. Balance viewing with authorized decryption (EIP-712 signatures)
 6. Regulatory compliance with privacy preservation
 
 ---
@@ -498,10 +552,16 @@ fhevm-react-template/
 │       │   ├── client.ts             # FhevmClient class
 │       │   ├── types.ts              # TypeScript types
 │       │   ├── provider.tsx          # React Provider & Hooks
-│       │   ├── encrypt.ts            # Encryption utilities
-│       │   ├── decrypt.ts            # Decryption utilities
+│       │   ├── encryption.ts         # Encryption utilities
+│       │   ├── decryption.ts         # Decryption utilities
+│       │   ├── instance.ts           # Instance management
+│       │   ├── utils.ts              # Helper utilities
 │       │   └── package.json          # SDK configuration
 │       └── README.md                 # SDK documentation
+│
+├── templates/                        # Starter templates
+│   ├── nextjs/                       # Next.js starter template
+│   └── README.md                     # Template documentation
 │
 ├── examples/
 │   ├── nextjs-carbon-trading/        # Next.js Example
@@ -510,20 +570,51 @@ fhevm-react-template/
 │   │   │   │   ├── layout.tsx        # Root layout with providers
 │   │   │   │   ├── page.tsx          # Main page
 │   │   │   │   ├── providers.tsx     # FhevmProvider wrapper
-│   │   │   │   └── globals.css       # Global styles
+│   │   │   │   ├── globals.css       # Global styles
+│   │   │   │   └── api/              # API routes
+│   │   │   │       ├── fhe/          # FHE operations endpoints
+│   │   │   │       └── keys/         # Key management endpoints
 │   │   │   ├── components/
+│   │   │   │   ├── ui/               # UI components
+│   │   │   │   ├── fhe/              # FHE components
+│   │   │   │   ├── examples/         # Example use cases
 │   │   │   │   ├── BalanceViewer.tsx # View encrypted balances
 │   │   │   │   ├── CreditIssuer.tsx  # Issue carbon credits
 │   │   │   │   ├── OrderManager.tsx  # Create buy orders
 │   │   │   │   └── TradeExecutor.tsx # Execute trades
-│   │   │   └── lib/
-│   │   │       └── fhevm.ts          # SDK utilities
+│   │   │   ├── hooks/                # Custom React hooks
+│   │   │   ├── lib/                  # Utility libraries
+│   │   │   └── types/                # TypeScript type definitions
 │   │   ├── package.json
 │   │   ├── next.config.js
 │   │   ├── tailwind.config.ts
 │   │   └── README.md
 │   │
-│   └── carbon-credit-trading/        # Smart Contract Example
+│   └── carbon-credit-trading/        # React Example (Vite + TypeScript)
+│       ├── src/
+│       │   ├── App.tsx               # Main application component
+│       │   ├── main.tsx              # React entry point
+│       │   ├── App.css               # Application styles
+│       │   ├── components/           # React components
+│       │   │   ├── UserRegistration.tsx
+│       │   │   ├── CreditManagement.tsx
+│       │   │   ├── OrderManagement.tsx
+│       │   │   ├── TradeExecution.tsx
+│       │   │   └── BalanceDisplay.tsx
+│       │   ├── hooks/                # Custom hooks
+│       │   │   ├── useFHE.ts         # FHEVM SDK integration
+│       │   │   ├── useWallet.ts      # Wallet connection
+│       │   │   └── useContract.ts    # Contract interactions
+│       │   ├── lib/
+│       │   │   ├── contract.ts       # Contract utilities
+│       │   │   ├── fhevm.ts          # FHE utilities
+│       │   │   └── abi.json          # Contract ABI
+│       │   └── types/
+│       │       └── index.ts          # TypeScript types
+│       ├── public/                   # Static assets
+│       │   ├── index.html            # Original static HTML
+│       │   ├── app.js                # Original JavaScript
+│       │   └── style.css             # Original styles
 │       ├── contracts/
 │       │   └── CarbonCreditTradingFHEVM.sol  # Main contract
 │       ├── scripts/
@@ -531,8 +622,11 @@ fhevm-react-template/
 │       │   └── interact.js           # Interaction CLI
 │       ├── test/
 │       │   └── CarbonCreditTradingFHEVM.test.js
+│       ├── vite.config.ts            # Vite configuration
+│       ├── tsconfig.json             # TypeScript configuration
+│       ├── package.json
 │       ├── hardhat.config.js
-│       └── README.md
+│       └── README-REACT.md           # React app documentation
 │
 ├── docs/                             # Documentation
 │   ├── API.md                        # Complete API reference
@@ -553,6 +647,7 @@ Comprehensive documentation available in `docs/`:
 - **[API Reference](./docs/API.md)** - Complete API documentation
 - **[Architecture](./docs/ARCHITECTURE.md)** - System design and structure
 - **[Deployment Guide](./docs/DEPLOYMENT.md)** - How to deploy contracts
+- **[Templates Guide](./templates/README.md)** - Starter templates for different frameworks
 
 ---
 
@@ -561,10 +656,11 @@ Comprehensive documentation available in `docs/`:
 ### ✓ Universal SDK Package
 
 - **Framework-agnostic core** - Works with Node.js, React, Vue, any framework
-- **Initialization utilities** - Simple `initFhevm()` function
-- **Encryption/decryption** - Complete `userDecrypt` with EIP-712 + `publicDecrypt`
+- **Initialization utilities** - Simple `initFhevm()` and `createFhevmInstance()` functions
+- **Encryption/decryption** - Complete `encryptInput()`, `userDecrypt()` with EIP-712 + `publicDecrypt()`
 - **Developer-friendly API** - Intuitive hooks and functions with full TypeScript support
-- **Reusable components** - Modular utilities for different encryption scenarios
+- **Reusable utilities** - Helper functions for validation, formatting, and type handling
+- **Instance management** - Global and scoped instance handling
 - **Clean & extensible** - Well-structured, documented, easy to extend
 
 ### ✓ Next.js Integration Example

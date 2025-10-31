@@ -194,14 +194,20 @@ export class FhevmClient {
         eip712.message
       );
 
-      // Request sealed ciphertext from contract
+      // Request sealed ciphertext from contract (reencryption)
+      // Note: The actual reencryption happens on-chain via the KMS
+      // This is a simplified implementation for demonstration
+      const userAddress = await signer.getAddress();
+      const pubKey = publicKey || await this.getPublicKey();
+
+      // In production, you would call the contract's reencrypt function
+      // which interacts with the KMS to produce a sealed ciphertext
       const sealedValue = await this.instance!.reencrypt(
         handle,
-        privateKey,
-        publicKey || await this.getPublicKey(),
+        pubKey,
         signature,
         contractAddress,
-        await signer.getAddress()
+        userAddress
       );
 
       const decrypted = this.instance!.unseal(contractAddress, sealedValue);
